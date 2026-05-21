@@ -2,11 +2,13 @@ package com.ivy.legacy.ui.component.edit
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -52,17 +54,47 @@ fun TransactionDateTime(
         ) {
             Spacer(Modifier.width(16.dp))
 
-            IvyIcon(icon = R.drawable.ic_calendar)
-
-            Spacer(Modifier.width(8.dp))
-
-            Text(
-                text = stringResource(R.string.created_on),
-                style = UI.typo.b2.style(
-                    color = UI.colors.gray,
-                    fontWeight = FontWeight.Bold
+            Row(
+                modifier = Modifier.clickable {
+                    onEditDate()
+                },
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IvyIcon(
+                    icon = R.drawable.ic_calendar,
+                    tint = UI.colors.gray,
+                    modifier = Modifier
+                        .size(28.dp)
+                        .align(Alignment.CenterVertically)
                 )
-            )
+
+                Spacer(Modifier.width(12.dp))
+
+                Column {
+                    Text(
+                        text = "Tanggal Transaksi",
+                        style = UI.typo.b2.style(
+                            color = UI.colors.gray,
+                            fontWeight = FontWeight.Bold
+                        )
+                    )
+
+                    Spacer(Modifier.height(2.dp))
+
+                    Text(
+                        text = with(LocalTimeFormatter.current) {
+                            val localDateTime = with(LocalTimeConverter.current) {
+                                (dateTime ?: LocalTimeProvider.current.utcNow()).toLocalDateTime()
+                            }
+                            localDateTime.format(TimeFormatter.Style.DateOnly(includeWeekDay = false))
+                        },
+                        style = UI.typo.nB2.style(
+                            color = UI.colors.pureInverse,
+                            fontWeight = FontWeight.ExtraBold
+                        )
+                    )
+                }
+            }
 
             Spacer(Modifier.width(24.dp))
             Spacer(Modifier.weight(1f))
@@ -73,19 +105,6 @@ fun TransactionDateTime(
             val timeFormatter = LocalTimeFormatter.current
             Text(
                 text = with(timeFormatter) {
-                    localDateTime.format(TimeFormatter.Style.DateOnly(includeWeekDay = false))
-                },
-                style = UI.typo.nB2.style(
-                    color = UI.colors.pureInverse,
-                    fontWeight = FontWeight.ExtraBold
-                ),
-                modifier = Modifier.clickable {
-                    onEditDate()
-                }
-            )
-
-            Text(
-                text = " " + with(timeFormatter) {
                     localDateTime.toLocalTime().format()
                 },
                 style = UI.typo.nB2.style(

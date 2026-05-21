@@ -190,12 +190,13 @@ private fun BoxWithConstraintsScope.UI(
         item {
             Spacer(Modifier.height(40.dp))
 
-            PieChart(
-                type = state.transactionType,
+            // Simple line chart visualization replacing pie chart for time/amount overview
+            LineChart(
                 categoryAmounts = state.categoryAmounts,
-                selectedCategory = state.selectedCategory,
-                onCategoryClick = { clickedCategory ->
-                    onEvent(PieChartStatisticEvent.OnCategoryClicked(clickedCategory))
+                lineColor = if (state.transactionType == TransactionType.EXPENSE) {
+                    com.ivy.wallet.ui.theme.Red
+                } else {
+                    com.ivy.wallet.ui.theme.Green
                 }
             )
 

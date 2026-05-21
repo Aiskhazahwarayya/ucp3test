@@ -520,8 +520,10 @@ private fun QuickAccess(
             Spacer(Modifier.weight(1f))
 
             MoreMenuButton(
-                icon = R.drawable.home_more_menu_budgets,
+                icon = R.drawable.ic_budget_xl,
                 label = stringResource(R.string.budgets),
+                backgroundColor = UI.colors.pure,
+                tint = UI.colors.pureInverse
             ) {
                 nav.navigateTo(BudgetScreen)
             }
