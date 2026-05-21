@@ -2,7 +2,7 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("org.jetbrains.kotlin.android")
-    org.jetbrains.kotlin.plugin.compose
+    id("org.jetbrains.kotlin.plugin.compose")
     id("dagger.hilt.android.plugin")
     id("org.jetbrains.kotlin.plugin.serialization")
     id("com.google.devtools.ksp")
@@ -14,6 +14,9 @@ plugins {
 android {
     namespace = "com.ivy.wallet"
     compileSdk = libs.versions.compile.sdk.get().toInt()
+
+    // Memaksa menggunakan versi 36 agar tidak error 25.0.2
+    buildToolsVersion = libs.versions.build.tools.get()
 
     defaultConfig {
         applicationId = "com.ivy.wallet"
@@ -51,24 +54,16 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-
             isDebuggable = false
-            isDefault = false
-
             signingConfig = signingConfigs.getByName("release")
-
             resValue("string", "app_name", "Ivy Wallet")
         }
 
         debug {
             isMinifyEnabled = false
             isShrinkResources = false
-
             isDebuggable = true
-            isDefault = true
-
             signingConfig = signingConfigs.getByName("debug")
-
             applicationIdSuffix = ".debug"
             resValue("string", "app_name", "Ivy Wallet Debug")
         }
@@ -80,14 +75,9 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-
             matchingFallbacks.add("release")
-
             isDebuggable = false
-            isDefault = false
-
             signingConfig = signingConfigs.getByName("debug")
-
             applicationIdSuffix = ".debug"
             resValue("string", "app_name", "Ivy Wallet")
         }
@@ -113,11 +103,6 @@ android {
         checkDependencies = true
         abortOnError = false
         checkReleaseBuilds = false
-        htmlReport = true
-        htmlOutput = file("${project.rootDir}/build/reports/lint/lint.html")
-        xmlReport = true
-        xmlOutput = file("${project.rootDir}/build/reports/lint/lint.xml")
-        baseline = file("lint-baseline.xml")
     }
 }
 
@@ -145,7 +130,6 @@ dependencies {
     implementation(projects.feature.search)
     implementation(projects.feature.settings)
     implementation(projects.feature.transactions)
-    implementation(projects.feature.poll.impl)
     implementation(projects.shared.base)
     implementation(projects.shared.data.core)
     implementation(projects.shared.domain)
@@ -167,14 +151,11 @@ dependencies {
     implementation(libs.datastore)
     implementation(libs.androidx.security)
     implementation(libs.androidx.biometrics)
-
     implementation(libs.bundles.hilt)
     implementation(libs.material)
     ksp(libs.hilt.compiler)
-
     implementation(libs.bundles.room)
     ksp(libs.room.compiler)
-
     implementation(libs.timber)
     implementation(libs.keval)
     implementation(libs.bundles.opencsv)
@@ -183,6 +164,5 @@ dependencies {
 
     testImplementation(libs.bundles.testing)
     testImplementation(libs.androidx.work.testing)
-
     lintChecks(libs.slack.lint.compose)
 }
