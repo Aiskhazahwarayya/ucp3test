@@ -108,11 +108,6 @@ fun BoxWithConstraintsScope.MoreMenu(
         animationSpec = springBounce(),
         label = ""
     )
-    val iconRotation by animateFloatAsState(
-        targetValue = if (expanded) -180f else 0f,
-        animationSpec = springBounce(),
-        label = ""
-    )
 
     val buttonSizePx = 40.dp.toDensityPx()
 
@@ -210,13 +205,12 @@ fun BoxWithConstraintsScope.MoreMenu(
                     )
                 }
             }
-            .rotate(iconRotation)
             .thenIf(expanded) {
                 zIndex(520f)
             }
             .testTag("home_more_menu_arrow"),
         backgroundColor = colorLerp(UI.colors.medium, UI.colors.pure, percentExpanded),
-        icon = R.drawable.ic_expandarrow
+        icon = R.drawable.ic_hamburger
     ) {
         setExpanded(!expanded)
     }
@@ -520,7 +514,7 @@ private fun QuickAccess(
             Spacer(Modifier.weight(1f))
 
             MoreMenuButton(
-                icon = R.drawable.ic_budget_xl,
+                icon = R.drawable.home_more_menu_budgets,
                 label = stringResource(R.string.budgets),
                 backgroundColor = UI.colors.pure,
                 tint = UI.colors.pureInverse
