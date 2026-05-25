@@ -216,7 +216,7 @@ fun BoxWithConstraintsScope.MoreMenu(
             }
             .testTag("home_more_menu_arrow"),
         backgroundColor = colorLerp(UI.colors.medium, UI.colors.pure, percentExpanded),
-        icon = R.drawable.ic_expandarrow
+        icon = R.drawable.ic_hamburger
     ) {
         setExpanded(!expanded)
     }
@@ -520,7 +520,7 @@ private fun QuickAccess(
             Spacer(Modifier.weight(1f))
 
             MoreMenuButton(
-                icon = R.drawable.ic_budget_xl,
+                icon = R.drawable.home_more_menu_budgets,
                 label = stringResource(R.string.budgets),
                 backgroundColor = UI.colors.pure,
                 tint = UI.colors.pureInverse
