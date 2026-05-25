@@ -216,7 +216,7 @@ fun BoxWithConstraintsScope.MoreMenu(
             }
             .testTag("home_more_menu_arrow"),
         backgroundColor = colorLerp(UI.colors.medium, UI.colors.pure, percentExpanded),
-        icon = R.drawable.ic_hamburger
+        icon = if (expanded) R.drawable.ic_expand_less else R.drawable.ic_hamburger
     ) {
         setExpanded(!expanded)
     }
