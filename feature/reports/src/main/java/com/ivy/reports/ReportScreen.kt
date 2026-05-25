@@ -174,7 +174,7 @@ private fun BoxWithConstraintsScope.UI(
                 expenses = state.expenses,
                 hasAddButtons = false,
                 itemColor = UI.colors.pure,
-                incomeHeaderCardClicked = {
+                onIncomeChartClick = {
                     if (state.transactions.isNotEmpty()) {
                         nav.navigateTo(
                             PieChartStatisticScreen(
@@ -186,7 +186,7 @@ private fun BoxWithConstraintsScope.UI(
                         )
                     }
                 },
-                expenseHeaderCardClicked = {
+                onExpenseChartClick = {
                     if (state.transactions.isNotEmpty()) {
                         nav.navigateTo(
                             PieChartStatisticScreen(

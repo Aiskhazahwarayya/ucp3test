@@ -3,6 +3,7 @@ package com.ivy.accounts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -163,14 +164,7 @@ private fun BoxWithConstraintsScope.UI(
                         )
                     )
                 }
-            ) {
-                nav.navigateTo(
-                    TransactionsScreen(
-                        accountId = it.account.id.value,
-                        categoryId = null
-                    )
-                )
-            }
+            )
         }
 
         item {
@@ -207,8 +201,7 @@ private fun AccountCard(
     baseCurrency: String,
     accountData: AccountData,
     compactModeEnabled: Boolean,
-    onBalanceClick: () -> Unit,
-    onClick: () -> Unit
+    onBalanceClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -216,9 +209,6 @@ private fun AccountCard(
             .fillMaxWidth()
             .clip(UI.shapes.r4)
             .border(2.dp, UI.colors.medium, UI.shapes.r4)
-            .clickable(
-                onClick = onClick
-            )
     ) {
         val account = accountData.account
         val contrastColor = findContrastTextColor(account.color.value.toComposeColor())
@@ -232,19 +222,16 @@ private fun AccountCard(
             onBalanceClick = onBalanceClick
         )
 
-        if (!compactModeEnabled) {
-            Spacer(Modifier.height(12.dp))
+        Spacer(Modifier.height(12.dp))
 
-            IncomeExpensesRow(
-                currency = currency,
-                incomeLabel = stringResource(R.string.month_income),
-                income = accountData.monthlyIncome,
-                expensesLabel = stringResource(R.string.month_expenses),
-                expenses = accountData.monthlyExpenses
-            )
+        IncomeExpensesRow(
+            currency = currency,
+            incomeLabel = stringResource(R.string.month_income),
+            income = accountData.monthlyIncome,
+            expensesLabel = stringResource(R.string.month_expenses),
+            expenses = accountData.monthlyExpenses
+        )
 
-            Spacer(Modifier.height(12.dp))
-        }
     }
 }
 

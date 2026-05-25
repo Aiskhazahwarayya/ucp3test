@@ -689,7 +689,7 @@ private fun Header(
             hasAddButtons = true,
 
             itemColor = itemColor,
-            incomeHeaderCardClicked = {
+            onIncomeChartClick = {
                 if (account != null) {
                     nav.navigateTo(
                         PieChartStatisticScreen(
@@ -701,7 +701,7 @@ private fun Header(
                     )
                 }
             },
-            expenseHeaderCardClicked = {
+            onExpenseChartClick = {
                 if (account != null) {
                     nav.navigateTo(
                         PieChartStatisticScreen(

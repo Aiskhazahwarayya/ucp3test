@@ -190,13 +190,12 @@ private fun BoxWithConstraintsScope.UI(
         item {
             Spacer(Modifier.height(40.dp))
 
-            // Simple line chart visualization replacing pie chart for time/amount overview
-            LineChart(
+            PieChart(
+                type = state.transactionType,
                 categoryAmounts = state.categoryAmounts,
-                lineColor = if (state.transactionType == TransactionType.EXPENSE) {
-                    com.ivy.wallet.ui.theme.Red
-                } else {
-                    com.ivy.wallet.ui.theme.Green
+                selectedCategory = state.selectedCategory,
+                onCategoryClick = { category ->
+                    onEvent(PieChartStatisticEvent.OnCategoryClicked(category))
                 }
             )
 

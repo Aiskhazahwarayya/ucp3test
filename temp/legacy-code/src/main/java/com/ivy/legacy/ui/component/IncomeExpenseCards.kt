@@ -49,8 +49,8 @@ fun IncomeExpensesCards(
     hasAddButtons: Boolean,
     itemColor: Color,
 
-    incomeHeaderCardClicked: () -> Unit = {},
-    expenseHeaderCardClicked: () -> Unit = {},
+    onIncomeChartClick: () -> Unit = {},
+    onExpenseChartClick: () -> Unit = {},
     onAddTransaction: (TransactionType) -> Unit = {},
 ) {
     Row(
@@ -70,7 +70,7 @@ fun IncomeExpensesCards(
             isIncome = true,
 
             itemColor = itemColor,
-            onHeaderCardClicked = { incomeHeaderCardClicked() }
+            onViewChartClick = { onIncomeChartClick() }
         ) {
             onAddTransaction(TransactionType.INCOME)
         }
@@ -88,7 +88,7 @@ fun IncomeExpensesCards(
             isIncome = false,
 
             itemColor = itemColor,
-            onHeaderCardClicked = { expenseHeaderCardClicked() }
+            onViewChartClick = { onExpenseChartClick() }
         ) {
             onAddTransaction(TransactionType.EXPENSE)
         }
@@ -110,7 +110,7 @@ private fun RowScope.HeaderCard(
 
     itemColor: Color,
 
-    onHeaderCardClicked: () -> Unit = {},
+    onViewChartClick: () -> Unit = {},
     onAddClick: () -> Unit
 ) {
     val backgroundColor = if (isDarkColor(itemColor)) {
@@ -128,8 +128,7 @@ private fun RowScope.HeaderCard(
                 color = backgroundColor,
                 alpha = 0.1f
             )
-            .background(backgroundColor, UI.shapes.r2)
-            .clickable { onHeaderCardClicked() },
+            .background(backgroundColor, UI.shapes.r2),
     ) {
         Spacer(Modifier.height(24.dp))
 
@@ -181,6 +180,25 @@ private fun RowScope.HeaderCard(
         )
 
         Spacer(Modifier.height(24.dp))
+
+        IvyButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp)
+                .align(Alignment.CenterHorizontally),
+            text = "Lihat Grafik",
+            shadowAlpha = 0.1f,
+            backgroundGradient = Gradient.solid(UI.colors.primary),
+            textStyle = UI.typo.b2.style(
+                color = findContrastTextColor(UI.colors.primary),
+                fontWeight = FontWeight.Bold
+            ).copy(fontSize = 12.sp),
+            wrapContentMode = false
+        ) {
+            onViewChartClick()
+        }
+
+        Spacer(Modifier.height(12.dp))
 
         if (addButtonText != null) {
             val addButtonBackground = if (isIncome) Green else contrastColor
