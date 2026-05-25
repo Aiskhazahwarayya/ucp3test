@@ -108,11 +108,17 @@ fun BoxWithConstraintsScope.MoreMenu(
         animationSpec = springBounce(),
         label = ""
     )
+    val iconRotation by animateFloatAsState(
+        targetValue = if (expanded) -180f else 0f,
+        animationSpec = springBounce(),
+        label = ""
+    )
+
     val buttonSizePx = 40.dp.toDensityPx()
 
     val xBase = ivyContext.screenWidth - 24.dp.toDensityPx()
-    val yBaseCollapsed = ivyContext.screenHeight - 96.dp.toDensityPx() - navigationBarInset()
-    val yBaseExpanded = yBaseCollapsed + buttonSizePx
+    val yBaseCollapsed = 20.dp.toDensityPx() + statusBarInset()
+    val yBaseExpanded = ivyContext.screenHeight - 48.dp.toDensityPx() - navigationBarInset()
 
     val yButton = lerp(
         start = yBaseCollapsed,
@@ -199,25 +205,21 @@ fun BoxWithConstraintsScope.MoreMenu(
 
                 layout(placeable.width, placeable.height) {
                     placeable.place(
-                        x = xBase.roundToInt() - placeable.width,
+                        x = xBase.roundToInt() - buttonSizePx.roundToInt(),
                         y = yButton.roundToInt()
                     )
                 }
             }
+            .rotate(iconRotation)
             .thenIf(expanded) {
                 zIndex(520f)
             }
             .testTag("home_more_menu_arrow"),
-        icon = if (expanded) {
-            R.drawable.ic_expandarrow
-        } else {
-            R.drawable.ic_hamburger
-        },
         backgroundColor = colorLerp(UI.colors.medium, UI.colors.pure, percentExpanded),
-        onClick = {
-            setExpanded(!expanded)
-        }
-    )
+        icon = R.drawable.ic_expandarrow
+    ) {
+        setExpanded(!expanded)
+    }
 }
 
 @Composable
@@ -518,7 +520,7 @@ private fun QuickAccess(
             Spacer(Modifier.weight(1f))
 
             MoreMenuButton(
-                icon = R.drawable.home_more_menu_budgets,
+                icon = R.drawable.ic_budget_xl,
                 label = stringResource(R.string.budgets),
                 backgroundColor = UI.colors.pure,
                 tint = UI.colors.pureInverse
